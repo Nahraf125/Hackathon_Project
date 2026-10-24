@@ -1,0 +1,10 @@
+streamlit
+streamlit-webrtc
+numpy
+pandas
+pillow
+opencv-python-headless
+dlib
+face_recognition
+face_recognition_models
+setuptools<81
