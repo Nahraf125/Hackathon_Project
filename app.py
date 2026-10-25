@@ -1,3 +1,4 @@
+import requests
 import streamlit as st, sqlite3, pickle, os, time, threading
 import numpy as np, pandas as pd, cv2, av
 import fr_lite as face_recognition
@@ -40,6 +41,18 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------- Database ----------------
+@st.cache_data(ttl=3600)
+def get_ice_servers():
+    stun = [{"urls": ["stun:stun.l.google.com:19302"]}]
+    try:
+        app = st.secrets["METERED_APP"]
+        key = st.secrets["METERED_KEY"]
+        r = requests.get(f"https://{app}.metered.live/api/v1/turn/credentials",
+                         params={"apiKey": key}, timeout=8)
+        r.raise_for_status()
+        return stun + r.json()
+    except Exception:
+        return stun 
 @st.cache_resource
 def get_conn():
     c = sqlite3.connect(DB, check_same_thread=False, timeout=10)
@@ -237,7 +250,7 @@ with tab1:
     ctx = webrtc_streamer(
         key="kiosk",
         video_processor_factory=Kiosk,
-        rtc_configuration=RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}),
+        rtc_configuration=RTCConfiguration({"iceServers": get_ice_servers()}),
         media_stream_constraints={"video": True, "audio": False},
         async_processing=True,
     )
