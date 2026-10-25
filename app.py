@@ -1,5 +1,6 @@
 import streamlit as st, sqlite3, pickle, os, time, threading
-import numpy as np, pandas as pd, cv2, av, face_recognition
+import numpy as np, pandas as pd, cv2, av
+import fr_lite as face_recognition
 from PIL import Image
 from datetime import datetime
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfiguration
