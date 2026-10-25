@@ -1,10 +1,10 @@
 streamlit
 streamlit-webrtc
+av
 numpy
 pandas
 pillow
 opencv-python-headless
-dlib
-face_recognition
+dlib-bin
 face_recognition_models
 setuptools<81
