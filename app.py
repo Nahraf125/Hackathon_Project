@@ -59,7 +59,7 @@ def get_ice_servers():
     except Exception:
         return stun 
 @st.cache_resource
-def get_conn(path)::
+def get_conn(path):
     c = sqlite3.connect(path, check_same_thread=False, timeout=10)
     c.execute("CREATE TABLE IF NOT EXISTS students (name TEXT, encoding BLOB, photo BLOB)")
     c.execute("CREATE TABLE IF NOT EXISTS attendance (name TEXT, date TEXT, in_time TEXT, out_time TEXT)")
