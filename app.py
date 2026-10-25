@@ -8,7 +8,12 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfigurati
 
 st.set_page_config(page_title="FaceTrack", page_icon="🎯", layout="wide")
 
-DB = "attendance.db"
+import tempfile
+_here = os.path.dirname(os.path.abspath(__file__))
+if _here.startswith("/mount"):          # Streamlit Cloud: yahan likhna mana hai
+    DB = os.path.join(tempfile.gettempdir(), "attendance.db")
+else:                                   # local computer
+    DB = os.path.join(_here, "attendance.db")
 THRESHOLD = 0.5      # kam = zyada strict
 MIN_GAP = 60         # IN ke itne second baad OUT lagega
 SHOW_SEC = 4         # result kitni der dikhe, phir naya session
