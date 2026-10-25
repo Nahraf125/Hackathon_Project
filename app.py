@@ -59,8 +59,8 @@ def get_ice_servers():
     except Exception:
         return stun 
 @st.cache_resource
-def get_conn():
-    c = sqlite3.connect(DB, check_same_thread=False, timeout=10)
+def get_conn(path)::
+    c = sqlite3.connect(path, check_same_thread=False, timeout=10)
     c.execute("CREATE TABLE IF NOT EXISTS students (name TEXT, encoding BLOB, photo BLOB)")
     c.execute("CREATE TABLE IF NOT EXISTS attendance (name TEXT, date TEXT, in_time TEXT, out_time TEXT)")
     cols = [r[1] for r in c.execute("PRAGMA table_info(students)")]
@@ -68,7 +68,8 @@ def get_conn():
         c.execute("ALTER TABLE students ADD COLUMN photo BLOB")
     c.commit()
     return c
-conn = get_conn()
+conn = get_conn(DB)
+st.caption(f"DB: {DB}")      # abhi check ke liye, baad mein hata dein
 
 def result_card(kind, html):
     st.markdown(f'<div class="res {kind}">{html}</div>', unsafe_allow_html=True)
